@@ -1,0 +1,14 @@
+*{font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif; color:#fff;}
+
+body{background-color: #333333; width: 800px; margin:auto;}
+
+h1{color:#DA635D}
+p{color:#DCD0C0;margin: 10px 20px}
+
+a{color:#B1938B;text-decoration: none}
+a:hover{color:#DCD0C0}
+
+ul{list-style-type: none}
+li{color:#DCD0C0;}
+
+img{height:300px; margin: 10px; border: 1px solid #DDD}
