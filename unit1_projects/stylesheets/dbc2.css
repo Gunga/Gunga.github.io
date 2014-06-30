@@ -1,31 +1,32 @@
 *{font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif; color:#fff;}
-
-body{background-color: #1C8B98; width: 800px; margin:auto;}
+html{height: 100%;margin: 0;padding: 0}
+body{background-color: #1C8B98; width: 64%; height: 100%; margin:auto; padding: 0}
 
 #header{
-	width:750px;
+	width:95%;
+	height: 5%;
 	margin:auto;
 	position: fixed;
 	z-index: 1;
 	background-color: inherit;
 }
 
-#contentArea{width:750px; margin: auto;padding-top: 80px}
-#content{width:500px; height: 500px; overflow: scroll;
+#contentArea{width:95%; height:80%;margin: auto;padding-top: 8%;position: relative;}
+#content{width:70%; height: 90%; overflow-y: scroll;
 		float:left; padding-bottom: 40px}
 #content>p{text-align: justify;}
 #sidebar{
-	width:240px;
-	height: 500px;
+	width:28%;
+	height: 90%;
 	float:left;
 	border: 1px solid #D1D2D5;
 	background-image: url('../images/bg.png');
 }
-#sidebar li{padding: 10px}
+#sidebar li{padding: 5px}
 #sidebar a:hover{color: #E14B3B}
-#footer{width: 750px; clear:both; margin: auto}
+#footer{width: 95%; height:5%; clear:both; margin: auto}
 
-h1{color:#E14B3B}
+h1{color:#F14B3B}
 p{color:#EDAA4E;margin: 10px 20px}
 
 .quote{font-family: 'Arial Narrow'; color: #FCC059}
