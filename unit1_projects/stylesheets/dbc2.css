@@ -12,10 +12,17 @@ body{background-color: #1C8B98; width: 800px; margin:auto;}
 
 #contentArea{width:750px; margin: auto;padding-top: 80px}
 #content{width:500px; height: 500px; overflow: scroll;
-		float:left; padding-bottom: 50px}
+		float:left; padding-bottom: 40px}
 #content>p{text-align: justify;}
-#sidebar{width:240px; height: 500px; float:left; border: 1px solid #D1D2D5;}
-#sidebar li{color: #E14B3B;padding: 10px}
+#sidebar{
+	width:240px;
+	height: 500px;
+	float:left;
+	border: 1px solid #D1D2D5;
+	background-image: url('../images/bg.png');
+}
+#sidebar li{padding: 10px}
+#sidebar a:hover{color: #E14B3B}
 #footer{width: 750px; clear:both; margin: auto}
 
 h1{color:#E14B3B}
