@@ -1,0 +1,30 @@
+*{font-family: 'Source Sans Pro', 'Trebuchet MS', Arial, Helvetica, sans-serif;
+color:#fff;
+font-weight: 200;
+margin: 0}
+
+html{height: 100%;}
+body{background-color: #E46A41; width: 100%; height: 100%; margin: auto;}
+strong{font-weight: 400}
+em{font-weight: 200italic}
+
+#header{height: 20%; background-color: #077FB1;text-align: center;}
+#navbar{height: 5%; background-color: #F4C541;text-align: center;}
+#contentArea{height: 70%; overflow-y:scroll}
+#content{width:70%;margin: auto}
+#footer{height: 5%; background-color: #654C48}
+
+h1{color:#E46A41;}
+#content h3{margin: 5px 0}
+p{margin: 10px 20px; text-align: justify;}
+
+a{color:#654C48;text-decoration: none}
+a:hover{background-color: #333}
+
+ul{list-style-type: none}
+#navbar li{display: inline; margin: 0 5px}
+
+#thanks{text-align: center; margin: 20px}
+
+img{height:300px;display: block; margin: auto; padding: 1px;
+	border: 1px solid #DDD;}
