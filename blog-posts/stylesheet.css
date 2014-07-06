@@ -36,3 +36,10 @@ ul{list-style-type: none}
 
 img{height:300px;display: block; margin: auto; padding: 1px;
 	border: 1px solid #DDD;}
+
+/* NEW: Semantic Element styles*/
+header{height: 20%; background-color: #077FB1;text-align: center;}
+nav{height: 5%; background-color: #F4C541;text-align: center;}
+article{width:70%;margin: auto}
+footer{height: 5%; background-color: #654C48}
+nav li{display: inline; margin: 0 5px}
