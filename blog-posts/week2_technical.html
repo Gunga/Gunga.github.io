@@ -69,6 +69,41 @@
           <h3>The Remaining Dirt that Sticks Around</h3>
           <p>Now we have a nice div and we write <strong>position:fixed</strong> to it. Just as it happened before with the absolute value, the fixed takes the element out of the natural order of display. Only this time, once we set its position (using top, bottom, left and right of course), the element will keep that position in our screen even if we scroll. This is probably useful for navigational bars, headers or footers we'd like to keep around even as the user scrolls through an article in the page. Only one problem though, it's out of the natural order, so how do we know if it goes on top or below the elements that pop up once we scroll? The short answer is, we probably won't know exactly. In order to avoid any surprise we should probably set a <strong>z-index</strong> property to 1. This means the div moves on the z-axis one unit. This way the element will be on top of anything that gets rendered.</p>
 
+
+          <a href="#" onclick="javascript:document.getElementById('fixed').style.display='block'" id="activate">
+            Click here to add a fixed div1 to this page
+          </a>
+
+          <div id="fixed">
+            <p>div1:<br>position:fixed<br>top:25%<br>right:0<br>z-index:1</p>
+          </div>
+
+          <h3>The Experimental</h3>
+          <p>I just wanted to point out the fact that there's another experimental value for the position property currently known as "<strong>sticky</strong>". I won't go into it since I believe it is still not standard and should be used carefully. However, I will include links that explain it in the references below.</p>
+          <hr>
+          <section id="references">
+            <h2>References</h2>
+
+            <p>Here's a list of useful websites I found during research:</p>
+
+            <ul>
+              <li>
+                <a href="http://www.w3schools.com/css/css_positioning.asp">
+                  CSS Positioning | W3Schools
+                </a>
+              </li>
+              <li>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/position">
+                  position - CSS | MDN <strong>**sticky value here**</strong>
+                </a>
+              </li>
+              <li>
+                <a href="http://www.barelyfitz.com/screencast/html-training/css/positioning/">
+                  CSS Positioning in Ten Steps
+                </a>
+              </li>
+            </ul>
+          </section>
           <h2 id="thanks">Thanks for dropping by!</h2>
       </article>
     </div>

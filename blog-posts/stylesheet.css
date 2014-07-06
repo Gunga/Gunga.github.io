@@ -66,3 +66,16 @@ nav li{display: inline; margin: 0 5px}
 #absolute-b #div1{position: relative; height: 100px}
 #absolute-b #div2{position: absolute; right:0;}
 
+#fixed{
+	position: fixed;
+	right:0;
+	top:25%;
+	width: 150px;
+	background-color: #ccc;
+	z-index: 1;
+	display: none;
+}
+#fixed p{font-family: monospace;}
+#activate{color: #031418; font-size:1.5em;text-align: center; display: block; margin-bottom: 20px}
+#references li{margin-bottom: 8px}
+
