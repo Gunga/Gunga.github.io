@@ -29,19 +29,45 @@
 
           <p>So to understand how the positioning properties work on our HTML elements we first need to understand what default behavior they are modifying. This is where <strong>position:static</strong> comes in. "Static" is essentially the <strong>default</strong> value the position property has for all elements. This means that this is what we see displayed when we write our html document without specifying any other position type. The elements are displayed naturally and in the order they were written in the html document.</p>
 
+          <div id="basic">
+            <div id="div1"><p>div1</p></div>
+            <div id="div2"><p>div2</p></div>
+          </div>
+
           <h3>The Beginning</h3>
           <p>Now we decide to try writing <strong>position:relative</strong> on one of our elements. <em>What happens?</em><br>
           Actually, nothing happens. Unless there's some other declaration somewhere that we haven't taken into account just changing the value of the position property changes nothing because the relative position does not change the element's natural position unless specified by other properties: <strong>top</strong>, <strong>bottom</strong>, <strong>left</strong>, <strong>right</strong>. These four properties can help us place an element <strong>once it has been positioned</strong>. They do not work by default, meaning they cannot be used on an element with static position. They only work with the other position types.</p>
 
+          <div id="relative">
+            <div id="div1"><p>div1 (set to relative)</p></div>
+            <div id="div2"><p>div2</p></div>
+          </div>
+
           <p>So if we take an element such as a div and set its position property to relative, the div will display exactly where it would have been without that change. Once we write something such as <strong>top:10px</strong> we'll move the div 10 pixels away from the top of its original position. This means the div will move 10 pixels down from its original position. However, all the other elements won't be affected by this. As far as they know, the element is still in its original position taking it's natural width and height, therefore they don't invade its original space even if we use the top, bottom, left and right properties to completely move the div from where it should display.</p>
 
-          <h3>Getting Dirty</h3>
-          <p>Now we have div2 inside div1 and we write <strong>position:absolute</strong> on div2. Well, now everything changes. When we set the value of position property to absolute, the element is taken out of the natural order of display. As far as the rest of the elements are concerned that element is no longer around for them to leave space for it. They ignore it. The element will now display relative to its <strong>closest positioned ancestor</strong>. This means that it will look to its ancestors (the parent element, the parent's parent element, and so on) until it finds the first one with a position property set to a value different than the default, static. If it does NOT find one, then the html element becomes the parent and the position set will be relative to the document. If it does find one, for example div1, then the absolute position of div2 will be relative to div1's position.</p>
+          <div id="relative-b">
+            <div id="div1"><p>div1 (top set to 10px)</p></div>
+            <div id="div2"><p>div2</p></div>
+          </div>
 
-          <p>Once again, we have div2 inside div1. We want to position div2 within div1. We can proceed by changing div1's position property to relative. This way div1 will display exactly where it should have been without positioning. However, once we set div2's position property to absolute, it will find div1 has been positioned therefore div2 can be absolutely positioned within div1.</p>
+          <h3>Getting Dirty</h3>
+          <p>Now we our divs and we write <strong>position:absolute</strong> on div2. Well, now everything changes. When we set the value of position property to absolute, the element is taken out of the natural order of display. As far as the rest of the elements are concerned that element is no longer around for them to leave space for it. They ignore it. The element will now display relative to its <strong>closest positioned ancestor</strong>. This means that it will look to its ancestors (the parent element, the parent's parent element, and so on) until it finds the first one with a position property set to a value different than the default, static. If it does NOT find one, then the html element becomes the parent and the position set will be relative to the document. If it does find one, for example their container, then the absolute position of div1 will be relative to the container's position and div2 will be set in natural order as if div1 never existed <strong>even if they overlap</strong>.</p>
+
+          <div id="absolute">
+            <div id="div1"><p>div1</p></div>
+            <div id="div2"><p>div2</p></div>
+          </div>
+
+          <p>This time around, we have div2 inside div1. We want to position div2 within div1. We can proceed by changing div1's position property to relative. This way div1 will display exactly where it should have been without positioning. However, once we set div2's position property to absolute, it will find div1 has been positioned therefore div2 can be absolutely positioned within div1.</p>
+
+          <div id="absolute-b">
+            <div id="div1"><p>div1 (set to relative)</p>
+              <div id="div2"><p>div2 (right set to 0)</p></div>
+            </div>
+          </div>
 
           <h3>The Remaining Dirt that Sticks Around</h3>
-          <p>Now we have a nice div and we write <strong>position:fixed</strong> to it. Just as it happened before with the absolute value, the fixed takes the element out of the natural order of display. Only this time, once we set its position (using top, bottom, left and right of course), the element will keep that position in our screen even if we scroll. This is probably useful for navigational bars, headers or footers we'd like to keep around even as the user scrolls through an article in the page. Only one problem though, it's out of the natural order, so how do we know if it goes on top or below the elements that pop up once we scroll? The short answer is, we don't really know. In order to avoid any surprise we should probably set a z-index property to 1. This way the div will be on top of anything that gets rendered.</p>
+          <p>Now we have a nice div and we write <strong>position:fixed</strong> to it. Just as it happened before with the absolute value, the fixed takes the element out of the natural order of display. Only this time, once we set its position (using top, bottom, left and right of course), the element will keep that position in our screen even if we scroll. This is probably useful for navigational bars, headers or footers we'd like to keep around even as the user scrolls through an article in the page. Only one problem though, it's out of the natural order, so how do we know if it goes on top or below the elements that pop up once we scroll? The short answer is, we probably won't know exactly. In order to avoid any surprise we should probably set a <strong>z-index</strong> property to 1. This means the div moves on the z-axis one unit. This way the element will be on top of anything that gets rendered.</p>
 
           <h2 id="thanks">Thanks for dropping by!</h2>
       </article>

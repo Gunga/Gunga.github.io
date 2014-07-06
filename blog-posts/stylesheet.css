@@ -43,3 +43,26 @@ nav{height: 5%; background-color: #F4C541;text-align: center;}
 article{width:70%;margin: auto}
 footer{height: 5%; background-color: #654C48}
 nav li{display: inline; margin: 0 5px}
+
+/*Week 2 Examples*/
+#basic, #relative, #relative-b, #absolute, #absolute-b{
+	width: 30%;
+	padding: 5px;
+	position: relative;
+	background-color: #333;
+	margin: auto;
+}
+#div1{width: 80%; height: 50px; background-color: #ccc; margin: auto}
+#div1 p{color: #333}
+#div2{width: 80%; height: 50px; background-color: #c00; margin: auto}
+
+
+#relative #div1{position: relative}
+
+#relative-b #div1{position: relative; top: 10px}
+
+#absolute #div1{position: absolute;}
+
+#absolute-b #div1{position: relative; height: 100px}
+#absolute-b #div2{position: absolute; right:0;}
+
