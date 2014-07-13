@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Javascript: The Harbinger of Dynamism</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <header>
+      <h1>What are blogs?</h1>
+      <h3>A Mystical Adventure</h3>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="http://gunga.github.io/">Home</a></li>
+        <li><a href="technical.html">Technical Blog</a></li>
+        <li><a href="week1_cultural.html">Cultural Blog</a></li>
+      </ul>
+    </nav>
+    <div id="contentArea">
+      <article>
+        <h2>Technical Post 3.0</h2>
+        <h3>Javascript: The Harbinger of Dynamism</h3>
+        <h4>by Joan Torres</h4>
+
+        <p>Welcome to yet another technical entry to this blog. This time, we turn our attention
+          to the infamous, loved and misunderstood "language of the web", <strong>JavaScript</strong>.</p>
+
+        <h3>Early Days</h3>
+
+        <p>During the 90s people loved a lot of things such as <a href="http://www.imdb.com/title/tt0107659/">buddy cop films</a>, family-oriented sitcoms, <a href="http://www.youtube.com/watch?v=-eSN8Cwit_s">Marky Mark and The Funky Bunch</a>, America's Funniest Home Videos, boy bands, and being hip. As you can see tell from that list, computers, much less the web, probably weren't that popular. That is, unless you count this gem:</p>
+
+        <a href="http://www.imdb.com/title/tt0113243/"><img src="http://upload.wikimedia.org/wikipedia/en/6/67/Hackersposter.jpg" alt="Hackers (1995 film)"></a>
+
+        <figcaption>Yes, that's Angelina Jolie, but I digress.</figcaption>
+
+        <p>Well, who could blame the public? Compared to these days, the internet was a hideous place. Sure, a lot of people had Personal Computers already, but a number of them also had to type 'win' to run Windows. The common way to get to the internet was using a modem which most people didn't have or understood. When you finally got yourself to the internet you probably didn't know what to do there. If you had somewhere to go you were greeted by horrible looking static websites that seemed "hip" at the time.</p>
+
+        <a href="http://postimg.org/image/ecpl7abdn/"><img src="http://s25.postimg.org/epgzdgtnj/msn90s.png"></a>
+        <figcaption>pictured here: "hip"</figcaption>
+
+        <p>Back then it seemed as though focus was on being different or unique rather than functionality and user experience. This was mainly due to the fact that web browsing was fairly new and lacked a way to make websites more complex without the use of plugins such as shockwave or flash which probably needed to be updated in order to display as everyone expected. Beyond that, many companies felt they understood the standard way of rendering html content. Even internet service providers such as AOL, Earthlink, CompuServe provided their own browser as part of their service. Thus we had the earliest web browser wars the world back would never find out about unless it had been featured on Celebrity Death Match.</p>
+
+        <img src="http://money.cnn.com/2002/01/22/technology/netscape/netscape_ie.01.jpg">
+        <figcaption>Wait, what are these?</figcaption>
+
+        <p>During this war, the once-dominant web browser now gone into witness protection program, Netscape Navigator, gave birth to their ugly duckling now turned swan of a language, Javascript.</p>
+
+        <h3>New Content, No Reload</h3>
+
+        <p>So what's the big deal with Javascript then? At first, it didn't seem like much. Knowing most paranoid people they probably disabled it as soon as they had the chance. Most people probably didn't know what it was, how useful it could be, or even how to go around using it for a website. Back then, websites were static, meaning content didn't change unless WE, as users, clicked something to change it. Our action, such as clicking to their "About Us" section would cause the WHOLE page to reload and only then would we see new content. This meant every single part of the page (header, footer, sidebar, navigational bar) was reloading even if they probably had the same image or content. That's the way everyone thought it had to be done. JavaScript, marketed as a "<em>web page scripting language</em>", changed that slowly but surely... until a little multinational corporation called Google went ahead and did this:</p>
+
+        <a href="http://www.searchenginepromotionhelp.com/m/articles/images/google-suggest-ss.jpg"><img src="http://www.searchenginepromotionhelp.com/m/articles/images/google-suggest-ss.jpg" alt="Google Autocomplete"></a>
+        <figcaption>Oh no! My computer became self-aware already!?</figcaption>
+
+
+        <p>Autocomplete used to be a feature we either hated or loved from Windows. It would automatically complete what we were typing if we had typed that before, but that was running from our computers and autocompleting from our user history. All of the sudden, that concept became universally useful when we went to search for something using Google Search and we're getting suggestions... as we type... without reloading the page. <strong>THAT</strong> is the magic of JavaScript.</p>
+
+
+        <h3>Dynamic Web Pages</h3>
+        <p>So now, not only can a few tech-savvy people see the impact JavaScript can have on web design, regular users also could see growth and evolution. Websites used to be static and any kind of dynamic content had to be rendered using an external plugin. However, JavaScript became the only widely accepted web page scripting language that every major browser across platforms had out-of-the-box support for. A major difference to other scripting languages used on web applications such as PHP, JSP, ASP, is the fact that JavaScript is run by the browser locally and not by the server externally. However, we can actually use JavaScript to connect to the server and ask it for a new website or new information and bring it back to the browser where the web site can reload WITHOUT reloading the whole page. We get modern, robust and dynamic websites without external plugins. Furthermore, since most major browser across platforms and devices support JavaScript, development takes less time to deliver fully functional websites and web applications for everyone to access anywhere. Website inevitably became more dynamic. Example:</p>
+
+        <a href="http://postimg.org/image/gjttv7gnv/"><img src="http://s25.postimg.org/lihc9qkgv/firefly.png" alt="itsfirely.com"></a>
+        <figcaption>Just LOOK at how alive that background is!</figcaption>
+
+        <h3>Drawbacks</h3>
+        <p>Of course, nothing man-made is without flaw, just ask <a href="http://money.cnn.com/2014/06/30/autos/general-motors-recall/">GM</a>. JavaScript is man-made, therefore it can't escape this law. There are many technical aspects, such as it being weakly-typed, considered flaws by some, virtues by others. I won't get into that. However, I will get into the biggest problem, Cross-Site Scripting (XSS).</p>
+
+        <a href="https://info.cenzic.com/2013-Application-Security-Trends-Report.html"><img src="http://www.net-security.org/images/articles/cenzic-032013-1.jpg"></a>
+        <figcaption>XSS at 26%? Now I'm definitely disabling JavaScript.</figcaption>
+
+        <p>Other programming languages allow the programmer to list the operations that are allowed execution. So if a someone were to write a new operation it wouldn't run. Also, once an application is deployed the code is no longer accesible by the user. However, JavaScript has none of those. The code is entirely open to anyone who wishes to see it and the browser wil execute ANY code written by a user. Therefore, malicious scripts can be injected into trusted websites by an attacker and a user's browser will execute it because it has no way of knowing it can be trusted or not. There are methods to avoid or test for XSS. However, it is still a very serious issue making 26% of the overall web application attacks according to a <a href="https://info.cenzic.com/2013-Application-Security-Trends-Report.html">Cenzic report</a>.</p>
+
+          <hr>
+          <section id="references">
+            <h2>References</h2>
+
+            <p>Here's a list of useful resources:</p>
+            <ul>
+              <li>
+                <a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">
+                  Cross-site Scripting
+                </a>
+              </li>
+              <li>
+                <a href="http://readwrite.com/2013/08/09/why-javascript-will-become-the-dominant-programming-language-of-the-enterprise">
+                  Why JavaScript Will Become The Dominant Programming Language Of The Enterprise
+                </a>
+              </li>
+              <li>
+                <a href="http://radar.oreilly.com/2013/04/will-javascript-take-over-the-programming-world.html">
+                  Will JavaScript take over the programming world?
+                </a>
+              </li>
+              <li>
+                <a href="https://www.w3.org/community/webed/wiki/A_Short_History_of_JavaScript">
+                  A Short History of JavaScript
+                </a>
+              </li>
+            </ul>
+
+          </section>
+          <h2 id="thanks">Thanks for dropping by!</h2>
+      </article>
+    </div>
+    <footer>
+      <h4>This footer is brought to you in part by HTML, CSS, ALMONDS, NUTELLA, DBC &amp; Joan Torres</h4>
+    </footer>
+  </body>
+</html>

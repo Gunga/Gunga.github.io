@@ -34,7 +34,7 @@ ul{list-style-type: none}
 
 #thanks{text-align: center; margin: 20px}
 
-img{height:300px;display: block; margin: auto; padding: 1px;
+img{max-height:300px;display: block; margin: auto; padding: 1px;
 	border: 1px solid #DDD;}
 
 /* NEW: Semantic Element styles*/
@@ -43,6 +43,8 @@ nav{height: 5%; background-color: #F4C541;text-align: center;}
 article{width:70%;margin: auto}
 footer{height: 5%; background-color: #654C48}
 nav li{display: inline; margin: 0 5px}
+
+figcaption{text-align: center;}
 
 /*Week 2 Examples*/
 #basic, #relative, #relative-b, #absolute, #absolute-b{
