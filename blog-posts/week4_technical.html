@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Do I need an Array or a Hash?</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <header>
+      <h1>What are blogs?</h1>
+      <h3>A Mystical Adventure</h3>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="http://gunga.github.io/">Home</a></li>
+        <li><a href="technical.html">Technical Blog</a></li>
+        <li><a href="week3_cultural.html">Cultural Blog</a></li>
+      </ul>
+    </nav>
+    <div id="contentArea">
+      <article>
+        <h2>Technical Post 4.0</h2>
+        <h3>Do I need an Array or a Hash?</h3>
+        <h4>by Joan Torres</h4>
+
+        <p>To think there used to be a time when we thought data was a simple thing. I'm gonna go right ahead a let you all in on a secret: it's not. At least we made sure it didn't stay simple. The way we collect and organize data has evolved to such a point that we have different data structures to deal with certain data. There are simple ones and there are advanced ones. In this entry, we'll take a look at some harmless, simple ones, the <strong>Array</strong> and the <strong>Hash</strong>.</p>
+
+        <h3>The Array</h3>
+        <p>The arrays allow us to have a collection of elements which are indexed by integers. Storing data and selecting data from an array is usually done in constant time as long as we know the index. As indexing begins with 0, if we wanted to store or read the fourth element of an array we'd use number 3 as the index. Iterating over arrays is common when we don't know an element's location. The biggest drawback arrays can present are in programming languages where only static arrays can be initialized. This means the array has a limited size to store data and cannot grow once full. Ruby's arrays seem to be dynamic arrays. Which allow us to push elements to the end of the array without worrying about the array filling up.</p>
+
+        <h3>The Hash</h3>
+        <p>The hash is similar to the array. The main purpose of the hash is also to find and store data in constant time. However, the index of the hash is not a number, it is a key. This key could be anything from a name to a unique_id. Therefore, our key is very important to finding a value. Otherwise, we'd have to iterate over the hash to find the value we're looking for which won't make it much different form other similar data structures. Ruby's hash is pretty similar to what many call an associative array. This means that our collection of elements is stored using "key &amp; value" pairs instead of integers that serve as the index to the values.</p>
+
+        <h3>Which should I use?</h3>
+        <p>Well, when it comes down to it, their usage mostly depends on the application. When it comes to linear data, having an array could be more beneficial than having a hash if there's too little data to store, because the hash has to use a "hash function" to reach the location of our value from the key. Running the hash function may use more resources than we save from reaching our data quickly if the amount of data is too little. However, when working with table data linearly the hash is usually more intuitive to work with. Not just that, but it's easier to add a column to a table without having to change as much code as we may have to with an array.</p>
+
+        <p>Let's take a look at this table</p>
+
+        <table border=1>
+          <tr>
+            <th>name</th>
+            <th>last_name</th> 
+            <th>gpa</th>
+          </tr>
+          <tr>
+            <td>Jane</td>
+            <td>Smith</td> 
+            <td>88</td>
+          </tr>
+          <tr>
+            <td>Johnny</td>
+            <td>Jackson</td> 
+            <td>90</td>
+          </tr>
+        </table>
+
+        <p>If we read one row and use an array to store it we will have something like this:</p>
+
+        <h2 class="examples">row = [jane, smith, 88]</h2>
+
+        <p>Therefore, we can access data from the array using numbers:</p>
+        <h2 class="examples"> row[0]=jane <br>row[1]=smith <br>row[2]=88</h2>
+
+        <p>However, if that table changes into something such as this:</p>
+
+        <table border=1>
+          <tr>
+            <th>student_id</th>
+            <th>name</th>
+            <th>last_name</th>
+            <th>session_id</th> 
+            <th>gpa</th>
+          </tr>
+          <tr>
+            <td>111-06-5212</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>010</td> 
+            <td>88</td>
+          </tr>
+          <tr>
+            <td>111-08-1429</td>
+            <td>Johnny</td>
+            <td>Jackson</td>
+            <td>046</td> 
+            <td>90</td>
+          </tr>
+        </table>
+
+        <p>Then row[1] would be where the name is stored instead of row[0]. Therefore, all of our code now needs to be updated where an indexed reference to our <em>row</em> array is made so that we can refer to the actual values we wanted. Whereas if we had used a hash and read the row in the table the first time we would have gotten this:</p>
+
+        <h2 class="examples">row = { "name" => "Jane", "last_name" => "Smith", "gpa" => "88"}</h2>
+
+        <p>the second time, this:</p>
+
+        <h3 class="examples">row = { "student_id" => "111-06-5212", "name" => "Jane", "last_name" => "Smith", "session_id" => 010, "gpa" => "88"}</h3>
+
+        <p>and on BOTH cases row["name"] would refer to "Jane". Therefore, adding those new columns to a table our application has to read wouldn't mean changing every reference to row in the code.</p>
+
+        <p>It is very important to understand the application we're designing in order to determine which data structure would be more suited for it. When it comes to multi-dimensional data a combination can be used:
+        array of arrays, hash of hashes, array of hashes , hash of arrays, and so on. The important thing here understand each well enough to determine which is the better choice in the long wrong when it comes to performance and maintainability.</p>
+
+          <hr>
+          <section id="references">
+            <h2>References</h2>
+
+            <p>Here's a list of useful resources:</p>
+            <ul>
+              <li>
+                <a href="http://www.cplusplus.com/doc/tutorial/arrays/">
+                  Arrays
+                </a>
+              </li>
+              <li>
+                <a href="http://www.sparknotes.com/cs/searching/hashtables/section1.html">
+                  Hash Tables
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tcl.tk/man/tcl8.5/tutorial/Tcl22.html">
+                  Associative Arrays
+                </a>
+              </li>
+              <li>
+                <a href="http://www.kirupa.com/html5/hashtables_vs_arrays.htm">
+                  Hashtables vs Arrays
+                </a>
+              </li>
+            </ul>
+
+          </section>
+          <h2 id="thanks">Thanks for dropping by!</h2>
+      </article>
+    </div>
+    <footer>
+      <h4>This footer is brought to you in part by HTML, CSS, ALMONDS, NUTELLA, DBC &amp; Joan Torres</h4>
+    </footer>
+  </body>
+</html>
