@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Creating</title>
+    <title>Modeling Objects with Classes</title>
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
   </head>
@@ -20,11 +20,54 @@
     <div id="contentArea">
       <article>
         <h2>Technical Post 5.0</h2>
-        <h3>Creating</h3>
+        <h3>Modeling Objects with Classes</h3>
         <h4>by Joan Torres</h4>
 
-        <p></p>
+        <p>I had to change my cellphone this week. So when the idea to model an object with classes came up that's the first thing that popped into my head. After all, phones today have many features and uses we can use as examples. I will definitely not model everything, just some of the essentials to illustrate the use of classes. </p>
 
+        <h3>How Classes Help</h3>
+        <p>In the programming world, we use classes when we want to define a generic group of objects. In this case, a phone is a generic class for my Samsung phone, much like a vehicle is a generic class for cars, trucks, motorcycles. My Galaxy S is a <em>phone</em>. My Toyota Car is a <em>vehicle</em>. This is the idea behind defining classes. Once a class is initialized we create an instance of that class, otherwise known as an <strong>object</strong>. Therefore, my specific phone is an object of the class phone.</p>
+
+        <p>Now we say what the class is, but why would we use a class instead of just a variable? Well, because we're not saving just the name of the phone. Phones have many attributes as well as actions they can perform. Let's look at a few of these.</p>
+
+        <p>Starting with attributes, when we mention our phones to others we commonly talk about its model and phone_number. Those are two attributes every phone has and they can become instance fields or <strong>instance variables</strong> in our class. Instance variables are variables that are available in every part of the class. Usually these variables need to be given a value in order to create an object. Not all instance variables need to be initialized though. For example, our phone could have a list of contacts. In fact, phones do have one today, but we don't have to add anyone to the list in order to use our phone. However, we can add people to it later. Adding people to the list has to be done through the object in a way that allows us to modify it. The way we do this is through the use of <strong>instance methods</strong>.</p>
+
+        <p>In a class, instance methods are actions our object can do. If we take our phone class and add common actions phones can do as methods we would have a fully functional, useful class. Examples of these actions turned into methods would be the already-mentioned "add_contact" method, place_a_call, and send_a_text.</p>
+
+        <h3>A Ruby Example</h3>
+
+        <p>Let's go ahead and turn use this knowledge to make a concrete definition of our phone class using Ruby to illustrate it:</p>
+
+        <pre>
+          class Phone
+            def initialize(model, phone_number)
+              @model = model
+              @phone_number = phone_number
+              @contacts = Hash.new
+            end
+
+            def add_contact(name, phone_number)
+              @contacts[name] = phone_number
+            end
+
+            def place_a_call( phone_number )
+              #implementation for placing the call
+            end
+
+            def send_a_text( message, phone_number )
+              #implementation for sending a text to phone number
+            end 
+          end
+        </pre>
+
+        <p>Note the variables with the at sign (@) in front of them. These are the instance variables. Now, once we have this class we can create an object and add a contact in the following way:</p>
+
+        <pre>
+          myPhone = Phone.new("Samsung Galaxy S", 7875553322)
+          myPhone.add_contact("Pats", 7875552233)
+        </pre>
+
+        <p>Those phones are not obviously not real, but they help illustrate how this works. This is but a simple example to help show how classes can help us model an object from the world. We can have the class include tons of other actions and variables so that our class can get closer to modeling a real phone. However, it is important to note that these are the internal definitions of a phone. The external, graphical and more physical features can't be defined this way. They are after all "hardware" and what we're working on here is "software".</p>
         <hr>
         <section id="references">
           <h2>References</h2>
@@ -32,8 +75,8 @@
           <p>Here's a list of useful resources:</p>
           <ul>
             <li>
-              <a href="#">
-                Arrays
+              <a href="http://www.ruby-doc.org/core-2.1.2/Class.html">
+                Classes in Ruby
               </a>
             </li>
             <li>
