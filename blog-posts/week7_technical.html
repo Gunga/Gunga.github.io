@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Securing SQL</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <header>
+      <h1>What are blogs?</h1>
+      <h3>A Mystical Adventure</h3>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="http://gunga.github.io/">Home</a></li>
+        <li><a href="technical.html">Technical Blog</a></li>
+        <li><a href="cultural.html">Cultural Blog</a></li>
+      </ul>
+    </nav>
+    <div id="contentArea">
+      <article>
+        <h2>Technical Post 7.0</h2>
+        <h3>Securing SQL</h3>
+        <h4>by Joan Torres</h4>
+
+        <p>
+          Security. It sounds boring. It sounds as though someone else should be worried about it. Aren't we idea generators and software implementers? Well, it's not that simple. Security is extremely important. Some of us in the software development world may want to think of ourselves as entrepeneurs who have great ideas and build awesome companies. However, the users are where our succes will come from. Therefore, when we go down to the user's level, would we want all of our private information to be easily available to anyone with some basic SQL knowledge and a lot of time on their hands just because the software designers were careless? That's what happens when we ignore security holes that actually turn our application into a supporter of <strong>SQL Injection</strong>.
+        </p>
+
+        <h3>Supporting SQL Injections?</h3>
+        <p>
+          There are many ways to design a web application using databases. One of which is using Database Management Systems (DBMS) such MySQL. In order to interact with our DBMS we use statements constructed using the Structured Query Language (<strong>SQL</strong>) syntax. I'm not going go deep into how that syntax works but I am going to show an example using a table I already created as an example in my <a href="week4_technical.html">4th entry</a> to this blog.
+        </p>
+
+        <p>If we look at this <strong>students</strong> table:</p>
+           <table border=1>
+          <tr>
+            <th>student_id</th>
+            <th>name</th>
+            <th>last_name</th>
+            <th>session_id</th> 
+            <th>gpa</th>
+          </tr>
+          <tr>
+            <td>111-06-5212</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>010</td> 
+            <td>88</td>
+          </tr>
+          <tr>
+            <td>111-08-1429</td>
+            <td>Johnny</td>
+            <td>Jackson</td>
+            <td>046</td> 
+            <td>90</td>
+          </tr>
+        </table>
+
+        <p>then we consider display Jane Smith's information to her we'd use a query such as this:</p>
+        <pre class="examples">SELECT * FROM students WHERE student_id = '111-06-5212';</pre>
+
+        <p>This will return only her row. However, if we're building an application where each student can log in to see their stored information we need it to be more dynamic. Therefore instead we would need to use a variable to store the student_id in order to <strong>insert</strong> the value in the variable when the query is generated. Without going into too much details here is an example of what that query might look like:</p>
+
+        <pre class="examples">SELECT * FROM students WHERE student_id = '{$dynamic_student_id}';</pre>
+
+        <p>You may be wondering where the value stored in <strong>$dynamic_student_id</strong> is coming from. <em>Here is where the problem lies</em>.</p>
+
+        <p>Let's assume the student_id is sensitive knowledge in our system, similar to the Social Security Number. Only each student should know their own student_id. Therefore we naively decide to have a field where a user just enters that value and their information pops up. They submit the form, we take the value written into that field and store it in our $dynamic_student_id variable and we're done. The system works.</p>
+
+        <p>...right?</p>
+
+        <p>Of course not. Is it ever really that simple? The fact of the matter is, we would have to trust users to input something that's correct. However, any shady user can pull this move:</p>
+
+        <pre class="examples">1'; SELECT * FROM students;</pre>
+
+        <p>If a shady users enters that into a form, that gets saved into $dynamic_student_id and then the actual resulting query would be this:</p>
+
+        <pre class="examples">SELECT * FROM students WHERE student_id = '1'; SELECT * FROM students;';</pre>
+
+        <p>THAT is now <strong>THREE</strong> statements. The first one returns nothing because no student_id is actually equal to 1. The semicolon finishes that statement and our DBMS runs the next one which selects <strong>EVERY</strong> row from our students table. The third is just <em>';</em> which will return an error. However, by the end of that our website will have shown our shady user every single student with their student ids, sessions and gpa. Trust me. We DO NOT want that. This is what we call SQL Injection. SQL knowdledge was used to <em>inject</em> other queries in order to get a desired result. The problem is that by ignoring and not addressing this issue we are supporting SQL injection by default.</p>
+
+        <h3>Removing SQL Injection Support</h3>
+        <p>The obvious approach to avoiding this is filtering our fields validating their input. Don't allow users to submit a form if they've entered any illegal characters that might break our database. However, we might need those characters. For example, a single quote can be used in last names such as <em>O'Neill</em>, so we might not want to disallow it. We should <strong>escape</strong> those characters which means we replace them using html entities, backslashes or anything that is equivalent to the character as well as understood by SQL as NOT a single quote or special character, which will not break any of our query statements. This is commonly called <strong>sanitizing</strong>. This is a good way to avoid SQL Injection. However, the sanitizing of fields should be done right before we execute the query. Doing it this way for a web application will ensure that we haven't missed a step along the way where our data could've been corrupted again. For example, the user goes beyond the form and finds a way to do some kind of <strong>parameter tampering</strong> which we miss and thus get injected with unauthorized SQL.</p>
+
+        <p>There is another action we can take to avoid losing our data. Even if we follow the sanitization rules to the letter, if some SQL Injection manages to get by us (systems aren't infallible 100% of the time much less people) then we can make sure they can't DROP, ALTER, TRUNCATE or DELETE our tables. We do this by only allowing the common user of our application to have SELECT, UPDATE or INSERT actions on our table. That way any attempt to DROP our database that might want to get through will fail because the action itself is restricted by the DBMS.</p>
+
+        <p>Just remember that when dealing with cyber security we want to go through a prevention, detection, response, and recovery cycle. First prevent the attack, if not detect it, respond and, if all else fails, have a recovery plan.</p>
+
+
+        <hr>
+        <section id="references">
+          <h2>References</h2>
+
+          <p>Here's a list of useful resources:</p>
+          <ul>
+            <li>
+              <a href="https://www.owasp.org/index.php/SQL_Injection">
+                SQL Injection
+              </a>
+            </li>
+            <li>
+              <a href="http://xkcd.com/327/">
+                Legendary SQL Injection XKCD Comic
+              </a>
+            </li>
+            <li>
+              <a href="https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet">
+                SQL Injection Prevention Cheat Sheet
+              </a>
+            </li>
+            <li>
+              <a href="ftp://ftp.software.ibm.com/software/rational/web/whitepapers/r_wp_dirtydozen.pdf">
+                The dirty dozen: preventing common application-level hack attacks
+              </a>
+            </li>
+          </ul>
+
+        </section>
+          <h2 id="thanks">Thanks for dropping by!</h2>
+      </article>
+    </div>
+    <footer>
+      <h4>This footer is brought to you in part by HTML, CSS, ALMONDS, NUTELLA, DBC &amp; Joan Torres</h4>
+    </footer>
+  </body>
+</html>
