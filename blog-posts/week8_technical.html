@@ -27,6 +27,94 @@
           Security again? Now it MUST sound boring. However, I know all of you read post 7.0 regarding SQL Injection where I demonstrated how not caring about security automatically makes you a supporter of security breach. Last time we went over SQL Injection and how to secure against it. This time we'll go over the basics of other kinds of security concerns.
         </p>
 
+        <h3>Preventing</h3>
+        <p>
+          So the first thing we'll probably want to do is protect our site from simple attacks that could potentially break it. Determining what could 'break' our website is probably not that intuitive. The first places where we should look for vulnerabilities are those concerned with user activity. The website's default behavior will rarely break the site unless we wrote buggy code, a third party plugin is now deprecated, there's some server miscofiguration/incompatibility due to updates... Let's just take these variables out of the equation. Let's focus on nothing more than the user.
+        </p>
+
+        <p>
+          The user is usually the reason for a web application to exist. We want to provide them with a way to do something through it. However, what if a user misbehaves and attempts to use the application for a different purpose than it was intended to and not part of its scope? What if this random user just wants to break it? Well, this is definitely a problem. Let's address it. <strong>HOW</strong> do we know what they'll be able to do before we deploy our application in order to prevent them doing it? This is the hard part.
+        </p>
+
+        <p>
+          We know a user can interact with our website by visiting internal urls, clicking elements, and writting on form elements such as text fields. These are the simple ones. Once they can upload files, we face another realm of issues. So could any of those simple actions break our site? The sad part is probably all of them can. The more obvious one is the text attack on text fields. We already discussed how text fields could be used for SQL injection that could break our database in entry 7 of this technical blog. What if they instead just wrote HTML?
+        </p>
+
+        <p>
+          A user is prompted for their name on a text field. They write an HTML tag such as:
+        </p>
+        
+        <pre class="examples">
+          &lt;iframe src="deadlywebsite.com"&gt;&lt;/iframe&gt;
+        </pre>
+
+        <p>
+          That gets saved into the database as the user's name. So now, anywhere through our application where the user's name should've been displayed, it will display an iframe instead of their name. This is bad, but it could be worse if they write &lt;script&gt; and add some nasty javascript to our database and consequently everywhere in the application where their name would be displayed (comments, profile, user list)
+        </p>
+
+        <p>
+          Due to all the possible ways these fields could backfire on us, we should consider working on our application under a <strong>closed-world assumption</strong>. This means, everything is prohibited except for what is explicitly allowed. For example, we only allow digits in phone numbers, and we only allow letters in names and last names. Most of the time sanitization of the fields would be done before we even allow the user to submit the form. This makes sense because then we allow the user to change it before potentially emptying the form, plus we can use javascript on the browser to check for valid input instead of having to validate it through server requests. One problem though... what DOES happen when we submit? Sometimes we get this:
+        </p>
+
+        <pre class="examples">form.php?user_id=bokuga&amp;name=Brown</pre>
+
+        <p>Meaningless... right?<br>Of course not. Just by inspecting that you can tell what the user id is as well as the name. You know what else you could do? CHANGE THE VALUES. So sanitization of the fields could've been done on the other side before submitting the form, but by copying the submission url and changing the values a user could once again insert unwated values onto our database. Just by visiting a url. The implications of this are even worse. Consider a badly design shopping cart with a url such as this:</p>
+
+        <pre class="examples">add_to_cart.php?item_id=a53dh&amp;price=500</pre>
+
+        <p>
+          Yup. I can see the item_id, which is probably harmless, but I can also see the price on the URL, which is NOT harmless. If I change that part of the url to <strong>price=0</strong> I would have added a $500 item to my cart except for me now it's free. This is a silly mistake because for actions such as adding an item to cart, the url shouldn't include that information. The user does not need to link that to someone else. They can just link the item's url and that second user can add it himself. Furthermore, the price shouldn't be variable. Just save it to the database and apply any math to it if an offer is used, just don't print it out on the URL. To make this work we just need to make sure the form is submitted using the <strong>POST</strong> method and not the <strong>GET</strong> method.
+        </p>
+
+        <p>
+          Briefly explaining this, both POST and GET allow a form to submit the fields so the application can read it later. The POST method does it blindly, meaning you won't see the variables and their values. The GET method shows those values, which means you can probably link a user to the exact state of the application in which you are by sharing a URL submitted with the GET method. That wouldn't be possible with POST. So as you can see, they both have their pros and cons. The GET method mostly forces us to double check a lot so as to not enter unwated states. However, this is not the only way visiting a URL could make an impact on the website.
+        </p>
+
+        <p>
+          What if we had an admin panel accessible through a link such as this:
+        </p>
+
+        <pre class="examples">ourwebsite.com/admin</pre>
+
+        <p>Well, we better make sure that just gets us to the login of the adminitrative tools because any person can reach that link. If we left those links unprotected just because they wouldn't be reachable from the name website, we would be making a huge mistake. Now, what if instead we kept all credentials in a separate file every document in our application reads. DO NOT keep it as easily accesible as this:</p>
+
+        <pre class="examples">ourwebsite.com/credentials.txt</pre>
+
+        <p>Once again, anyone can get there and get some pretty important information out of your application.</p>
+
+        <h3>What if we missed something?</h3>
+
+        <p>
+          I did mention a few ways to protect your website from some attacks, but what if a user figures out a NEW way to attack. The fact of the matter is, we can't anticipate all the crazy ways people will ingeniously work their way to break a system. If we keep working with the closed-world assumption a lot of things should be fine. However, what if they get to our database and see everything? is it game over? Thankfully not. There's a way we can protect some of the data by using <strong>hashes</strong>.
+        </p>
+
+        <p>
+          Hashes are what we use to protect a user's login data. We can store their username, that information is public, but we should encode their passwords using a one-way cipher that returns a hash value from which getting the password back is mathematically impossible. This way, even if we had access to the user login data, we wouldn't be able to know the password. Only the user would. Here's how that works:
+        </p>
+
+        <p>
+          The user registers as "johnny" with his password "imawesome396". We save "johnny" as the username but we take "iamawesome396" and we use a one-way cipher or hash function such as MD5 in order to get a hash value such as "5beafe259862776beba58dbb8b86f354" which is what we actually store in the database.
+        </p>
+
+        <table border=1>
+          <tr>
+            <th>username</th> 
+            <th>password</th>
+          </tr>
+          <tr>
+            <td>johnny</td>
+            <td>5beafe259862776beba58dbb8b86f354</td>
+          </tr>
+        </table>
+
+        <p>
+          So when they log in, what we do is we use the same hash function again, and we compare THAT result to the one in the database to determine if the credentials are correct. This way we guarantee that only the user actually knows what the password is. We know users tend to reuse their passwords so we wouldn't want an attacker to gain access to their general-purpose password just because we failed to protect it.
+        </p>
+
+        <p>  
+          We can consider what we know as administrators, what they know outside as users, what they could do if they get in and figure out a way to detect their breach and respond.
+        </p>
+
         <p>Just remember that when dealing with cyber security we want to go through a prevention, detection, response, and recovery cycle. First prevent the attack, if not detect it, respond and, if all else fails, have a recovery plan.</p>
 
 
