@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deferred Objects</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <header>
+      <h1>What are blogs?</h1>
+      <h3>A Mystical Adventure</h3>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="http://gunga.github.io/">Home</a></li>
+        <li><a href="technical.html">Technical Blog</a></li>
+        <li><a href="cultural.html">Cultural Blog</a></li>
+        <li><a href="projects/">Projects</a></li>
+      </ul>
+    </nav>
+    <div id="contentArea">
+      <article>
+        <h2>Technical Post 9.0</h2>
+        <h3>Deferred Objects</h3>
+        <h4>by Joan Torres</h4>
+
+        <p>
+          Welcome to another entry of this simple mystical tech blog. Today, I feel like talking about asynchronicity, specifically using <strong>Deferred Objects</strong>.
+        </p>
+
+        <h3>Deferred Objects?</h3>
+        <p>
+          As we learned from a <a href="week3_technical.html">previous entry</a>, in web development, we can use javascript when we want a more dynamic response on the client-side of our application. One common way to implement this is through AJAX. The JavaScript library jQuery provides a simple interface for performing asynchronous requests with AJAX:
+        </p>
+        
+        <pre>
+          $.ajax({
+            url: "/resources",
+            type: "post",
+            data: { foo: "bar" }
+          })
+        </pre>
+
+        <p>
+          However, this function is actually a wrapper for the jQuery <a href="http://api.jquery.com/category/deferred-object/">Deferred Interface</a>. A Deferred Object in jQuery is an object whose execution gets put off till later. Understanding this interface can actually help us understand asynchronicity (and thus AJAX) even more.
+        </p>
+
+        <h3>A Simple Implementation (Status)</h3>
+        
+        <p>
+          There are quite a few functions within jQuery's deferred object. However, I will stick to only a few basic ones which should be enough to understand how it works. We'll use plain vanilla JavaScript to implement a minimal Deferred object.
+        </p>
+
+        <p>The first thing we need to consider about the deferred objects is their status. Once a deferred object is initialized it is set to <em>pending</em> until some other action changes it to <em>resolved</em> if it can be successfully executed or <em>rejected</em> if for some reason it shouldn't run at this time. This means we can begin writing our implementation with this:</p>
+
+        <pre>
+          var Deferred = function(){
+             this.status = "pending"
+          }
+        </pre>
+
+        <p>We've written a simple constructor function that will initialize an instance of Deferred with the status of "pending". Now let's expand its prototype with resolve and reject functions which can change the status of our Deferred object:</p>
+
+        <pre>
+          Deferred.prototype = {
+            resolve: function(){
+              this.status = "resolved"
+            },
+            reject: function(){
+              this.status = "rejected"
+            }
+          }
+        </pre>
+
+        <h3>A Simple Implementation (Callbacks)</h3>
+        <p>
+          Now our Deferred object can be initialized, resolved or rejected. However, there's another really important functionality that we should include, the callbacks. Since we can have our Deferred object be resolved or rejected we probably want to provide a way to set callback functions for a successful execution as well as for an unsuccessful one. In jQuery, this is implemented using a <strong>done</strong> and a <strong>fail</strong> function. These functions can take any number of functions as arguments and work as callback setters for our Deferred object. One simple way we could implement each of these is this way:
+        </p>
+
+        <pre>
+          Deferred.prototype = {
+            done: function(){
+              this.callbacks = arguments;
+              return this;
+            },
+            fail: function(){
+              this.failCallbacks = arguments;
+              return this;
+            }
+          }
+        </pre>
+
+        <p>
+          There's a couple of concepts that are worth noting on those few lines of code. The first one is the use of the JavaScript object <strong>arguments</strong> which holds every single argument that the function receives. Since JavaScript already allows the programmer to pass in none or more than the required arguments for any function when invoking it, then we want to take advantage of that. Therefore we use the arguments object which is an array-like object of whatever it is that the function got when invoked.
+        </p>
+
+        <p>The other thing worth nothing is the use of <strong>return this;</strong> at the end of both functions. This was deliberately included in order to provide the object with the ability to chain its functions. Since the function returns the object itself, then other functions from the prototype can be chained to it. Therefore we can have this:</p>
+
+        <pre>
+          bob = new Deferred();
+
+          bob.done(function(){
+            console.log("success");
+          }).fail(function(){
+            console.log("fail");
+          });
+        </pre>
+
+        <p>This chaining is similar to jQuery's. This capability is really useful which is why we should include it in this simplified version.</p>
+
+        <h3>A Simple Implementation (All Together)</h3>
+
+        <p>Now we actually have enough to bring it all together. All we're missing is the actually execution of our callbacks. We should include the execution of them in the resolve and reject functions. In this first example, I will only execute the first of each list of callbacks to illustrate one way it could be done:</p>
+
+        <pre>
+          var Deferred = function(){
+             this.status = "pending"
+          }
+
+          Deferred.prototype = {
+            done: function(){
+              this.callbacks = arguments;
+              return this;
+            },
+            fail: function(){
+              this.failCallbacks = arguments;
+              return this;
+            },
+            resolve: function(){
+              this.status = "resolved"
+              this.callbacks[0]();
+            },
+            reject: function(){
+              this.status = "rejected"
+              this.failCallbacks[0]();
+            }
+          }
+        </pre>
+
+        <p>This implementation should be enough for a simple example such as:</p>
+
+        <pre>
+          bob = new Deferred()
+
+          bob.done(function(){
+            console.log("success");
+          }).fail(function(){
+            console.log("fail");
+          });
+
+          //After some time, some other code execution, or a server response
+          bob.resolve()
+        </pre>
+
+        <p>The output of running <strong>bob.resolve()</strong> should be a "success" message being printed in the console. That is because the resolve method will change the bob Deferred object to "resolved" and execute the first callback function which is this case only contains <strong>console.log("success")</strong>. Notice I didn't return the object at the end of these functions because it didn't seem necessary or intuitive to chain a resolve or reject with any of the other functions.</p>
+
+        <p>
+          A more complete implementation of Deferred will have a loop that runs each callback in the resolve and reject functions:
+        </p>
+
+        <pre>
+          for(var i = 0; i &lt; this.callbacks.length; i++)
+            this.callbacks[i]();
+        </pre>
+
+        <p>Something along those lines should be enough. So our final, simple and minimal implementation should be something such as this:</p>
+
+         <pre>
+          var Deferred = function(){
+             this.status = "pending";
+          }
+
+          Deferred.prototype = {
+            done: function(){
+              this.callbacks = arguments;
+              return this;
+            },
+            fail: function(){
+              this.failCallbacks = arguments;
+              return this;
+            },
+            resolve: function(){
+              this.status = "resolved";
+              for(var i = 0; i &lt; this.callbacks.length; i++)
+                this.callbacks[i]();
+            },
+            reject: function(){
+              this.status = "rejected";
+              for(var i = 0; i &lt; this.failCallbacks.length; i++)
+                this.failCallbacks[i]();
+            }
+          }
+        </pre>
+
+        <hr>
+        <section id="references">
+          <h2>References</h2>
+
+          <p>Here's a list of useful resources:</p>
+          <ul>
+            <li>
+              <a href="http://api.jquery.com/category/deferred-object/">
+                Deferred Object
+              </a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments">
+                The Arguments Object
+              </a>
+            </li>
+            <li>
+              <a href="http://en.wikipedia.org/wiki/First-class_function">
+                First-class functions
+              </a>
+            </li>
+            <li>
+              <a href="http://en.wikipedia.org/wiki/Method_chaining">
+                Method Chaining
+              </a>
+            </li>
+          </ul>
+
+        </section>
+          <h2 id="thanks">Thanks for dropping by!</h2>
+      </article>
+    </div>
+    <footer>
+      <h4>This footer is brought to you in part by HTML, CSS, ALMONDS, NUTELLA, DBC &amp; Joan Torres</h4>
+    </footer>
+  </body>
+</html>
