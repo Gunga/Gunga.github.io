@@ -44,6 +44,7 @@ nav{height: 5%; background-color: #F4C541;text-align: center;}
 article{width:70%;margin: auto}
 footer{height: 5%; background-color: #654C48}
 nav li{display: inline; margin: 0 5px}
+footer a{color: #ccc}
 
 figcaption{text-align: center;}
 
