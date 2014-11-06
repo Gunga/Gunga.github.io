@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>From Rails to Node with Express</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <header>
+      <h1>What are blogs?</h1>
+      <h3>A Mystical Adventure</h3>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="http://gunga.github.io/">Home</a></li>
+        <li><a href="technical.html">Technical Blog</a></li>
+        <li><a href="cultural.html">Cultural Blog</a></li>
+        <li><a href="projects/">Projects</a></li>
+      </ul>
+    </nav>
+    <div id="contentArea">
+      <article>
+        <h2>Technical Post 10.0</h2>
+        <h3>From Rails to Node with Express</h3>
+        <h4>by Joan Torres</h4>
+
+        <p>
+          Welcome to a slightly more dangerous adventure than usual. This blog entry might feel a little bit different from the previous ones because it will be slightly more technical. I'm assuming the people reading this are familiar enough with Rails but have no previous experience with Node. I have a really small existing project made with Rails which I will move to a Node framework.
+        </p>
+
+        <h3>The Project</h3>
+        <p>
+          So on November 1st, 2014, I attended a Hackathon and ended up teaming up with two other attendees (<a href="https://github.com/yenhtran">Yen Tran</a> and <a href="https://github.com/amarcher">Andrew Archer</a>) to make a really simple app in 12 hours. The idea for this app was "Tinder for Food". It consisted on a landing page which started showing us images of dishes. You could choose to like or dislike a dish. Afterwards, you had a list of meals you liked from which you could enter a comparison mode. In this mode you had two choices taken from the top of your list and whichever one you chose remained, the other one would get discarded. The remaining dish was the winner and the dish you were having this time around.
+        </p>
+
+        <a href="https://github.com/amarcher/fooder">
+          <img src="http://s25.postimg.org/myv7a8om7/Fooder_Rails.png">
+        </a>
+
+        <h3>The Backend</h3>
+        <p>
+          So this was a simple, one-page minimum viable product (MVP). The controller only had two routes, one for loading the index and the other one for hitting the API which returned the food information and the images. You can find the code for the app over here:
+        </p>
+        <p><a href="https://github.com/amarcher/fooder">https://github.com/amarcher/fooder</a></p>
+
+        <p>
+          So now, with that overview. Let's move on to Node.
+        </p>
+
+        <h3>Node?</h3>
+        <p>
+          So, what is Node? There seems to be a lot of confusion around what Node actually is with people who are new to this world and have yet to dive into it. I've heard two common responses to what Node is:
+        </p>
+        <ul>
+          <li>"It allows you to run JavaScript code locally on the terminal"</li>
+          <li>"It would replace Rails on a JavaScript stack"</li>
+        </ul>
+
+        <p>
+          Both are common responses and I myself was confused with this the first time I heard about Node. The first one isn't wrong, but it misses a bit of what it means. The second one is a whole other story. I feel that maybe one thing that adds to the confusion is the fact that developers as well as job listings say "Node Developer". Someone familiar with Ruby might feel inclined to think this is similar to "Ruby on Rails Developer" which would mean Node, similar to Rails, is a framework. That isn't the case. Let's see what the Node website says:
+        </p>
+
+        <p class="examples">
+          <em>Node.js&reg; is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.</em>
+        </p>
+
+        <p>The keyword here is <strong>platform</strong>. Node is a platform that allows you to build apps using JavaScript. It isn't the framework. The framework runs on top of the platform. It isn't the interpreter either. The platform uses the interpreter to execute the code.</p>
+
+        <p>
+          So where we have Ruby (and MRI) with Rails as a commonly used Framework. JavaScript on the backend has Node (and V8) with Express as a commonly used Framework.
+        </p>
+
+        <h3>Express</h3>
+
+        <p>
+          Due to its popularity, I chose Express as the first Framework I should look at in Node. I was considering using KOA, however, their current implementation requires an unstable release of Node which could mean I would not be able to deploy an app using KOA unless the server supported unstable Node releases.
+        </p>
+
+        <p>So since I already had Node installed the first thing I did was update it. I ran these on my terminal:</p>
+
+        <pre>
+          sudo npm install -g n
+          sudo n stable
+        </pre>
+
+        <p>
+          The first one uses npm to install 'n' which is a Node version manager similar to rvm for Ruby. The second command installs the latest stable Node release.
+        </p>
+
+        <p>
+          Now something funny might happen. You updated Node but npm now stops working and it's telling you that it can't find <strong>./fs.js</strong> or <strong>graceful-fs</strong> module. This means that npm is out-of-date with Node. The solution for this is simple. Update npm. The easiest way for me was running this on the terminal:
+        </p>
+
+        <pre>
+          curl -L https://npmjs.org/install.sh | sudo sh
+        </pre>
+
+        <p>
+          Once that was done I ran npm and got no errors. So I proceeded to install express on a project.
+        </p>
+
+        <p>
+          If we follow the official <a href="http://expressjs.com/starter/installing.html">getting started</a> from the Express website we would first, from within our app folder type:
+        </p>
+
+        <pre>
+          npm init
+        </pre>
+
+        <p>This will get us a <strong>package.json</strong> that will get us going. Then the next thing is:</p>
+
+        <pre>
+          npm install express --save
+        </pre>
+
+        <p>That's it! Express is ready to roll!!</p>
+
+        <p>...</p>
+
+        <p>
+          Well, not quite. You actually need to set up your files in order to get your server, then your routes, your views, and everyhing else going. This may sound like a lot. However, express provides a <a href="http://expressjs.com/starter/generator.html">generator</a> tool which will quickly create an application skeleton. To do this you can run this:
+        </p>
+
+        <pre>
+          npm express-generator -g
+        </pre>
+
+        <p>
+          <strong>NOTE:</strong>If for some reason this throws a permission denied error use the following to give node user level access:
+        </p>
+        <pre>
+          sudo chown -R `whoami` ~/.npm
+        </pre>
+
+        <p>You can replace whoami with your username.</p>
+
+        <p>Once this works you can generate a simple app with the following:</p>
+
+        <pre>
+          express AppNameHere
+          cd foodrApp &amp;&amp; npm install
+        </pre>
+
+        <p>Now your skeleton is set up and if you run the app the way it's suggested by typing:</p>
+
+        <pre>
+          DEBUG=AppNameHere ./bin/www
+        </pre>
+
+        <p>Then you can have the app running on your localhost. I would, however, suggest to add:</p>
+
+        <pre>
+            var server = app.listen(3000, function () {
+
+              var host = server.address().address
+              var port = server.address().port
+
+              console.log('The app is listening at http://%s:%s', host, port)
+
+            })
+        </pre>
+
+        <p>
+          Which actually allows you to use the <strong>node</strong> command on your console with your app instead of the previous command. Therefore, you can run it by typing:
+        </p>
+
+        <pre>
+          node app.js
+        </pre>
+
+        <p>You should be able to visit localhost:3000 to see it.</p>
+
+        <h3>My views</h3>
+        <p>
+          Now that we got the basic app setup running, let's take some time to poke around and see what we find. Once we do that we may decide that the most logical place to start is from the router and see what it's doing. You may notice that it's closer to the <a href="http://www.sinatrarb.com/">Sinatra</a> framework than it is to Rails. Inside the root route it's rendering an index. Let's see what's in our index.
+        </p>
+
+        <pre>
+          extends layout
+
+          block content
+            h1= title
+            p Welcome to #{title}
+        </pre>
+
+        <p>
+          So what just happened? Why is our index view so cryptic? If we notice the extension of the file, it's not html, it's jade. The express generator uses jade for templating by default. It may look confusing at first but it actually is fairly similar to HAML because indentation matters. If you want to get html that you already had (which we did) to work with this app there are a few options. The first one is to abandon the jade way and go back to html and use <strong>ejs</strong> which stands for 'Embedded JavaScript' which is essentially the same as erb, which stands for 'Embedded Ruby' on Rails. The second one using a translator to get a feel for how jade works. I would suggest this one: <a href="http://html2jade.org/">http://html2jade.org/</a>
+        </p>
+
+        <h3>Can I use partials?</h3>
+
+        <p>
+          So if you had a partial loading on existing view (which we did) then you might want to explore how that's done using jade. So I decided that I wanted to avoid making a mess of files so I created a folder under views called "partials" and within it I would create my partials jade files. After doing so I looked for a way to load partials. I was inclined to using the extends keyword to help me out but I found another way:
+        </p>
+
+        <pre>
+          include tinder
+        </pre>
+
+        <p>This of course didn't work because the partials were in a partials folder. However, I was wondering what error I might get which would tell me if was heading in the right direction. The error was really explicit:</p>
+
+        <pre>
+          no such file or directory '../foodrApp/views/tinder.jade'
+        </pre>
+
+        <p>
+          So it's looking for it in the views folder and nowhere else. Rails would usually look in two places, a folder with a name related to the controller in the current context or within a folder named "application". In this case it just looks in 'views' therefore we might want to change that include to:
+        </p>
+
+        <pre>
+          include partials/tinder
+        </pre>
+
+        <p>That works but... CAREFUL WITH INDENTATION</p>
+
+        <h3>API Calls</h3>
+
+        <p>So our simple app actually uses an API. Therefore we might wanna know what we can use here to hit an API. The simplest way I found was using a module called "<a href="https://www.npmjs.org/package/request">request</a>". This module would allow the code to be as simple as this:</p>
+
+        <pre>
+          var request = require('request');
+          request('https://www.endpoint.com/records/format/json', function (error, response, body) {
+            if (!error &amp;&amp; response.statusCode == 200) {
+              res.type('json').send(body);
+            }
+          })
+        </pre>
+
+        <p>
+          That's simple enough. Just require request and use that variable to hit the API then enter a callback function to actuallly return what we need. In this specific case, json. I used routers response object. I used the type function on it to set the response content type to json and then I sent the body of the API's response.
+        </p>
+
+        <h3>A New Milestone</h3>
+
+        <p>So we hit a new milestone in learning. We can now actually build simple Node apps using the Express framework. However, there is no persistance layer here. However, adding that to the stack might not be as simple. Even though PostgreSQL can be used in Node with an ORM that uses the Active Record Pattern, this is not the common Node stack. The most popular one at the moment is apparently MongoDB with Mongoose on top of it. However, this seems like a great topic for perhaps a future entry on this blog.</p>
+
+        <p>You can get the code for the node version of this project on that same repo on a different branch:</p>
+
+        <p>
+          <a href="https://github.com/amarcher/fooder/tree/node_spike/foodrApp">
+            https://github.com/amarcher/fooder/tree/node_spike/foodrApp
+          </a>
+        </p>
+
+        <hr>
+        <section id="references">
+          <h2>References</h2>
+
+          <p>Here's a list of useful resources:</p>
+          <ul>
+            <li>
+              <a href="http://nodejs.org/">
+                Node
+              </a>
+            </li>
+            <li>
+              <a href="http://expressjs.com/">
+                Express
+              </a>
+            </li>
+            <li>
+              <a href="http://scotch.io/tutorials/javascript/learn-to-use-the-new-router-in-expressjs-4">
+                Learn to Use the New Router in ExpressJS 4.0
+              </a>
+            </li>
+            <li>
+              <a href="http://koajs.com/">
+                KOA
+              </a>
+            </li>
+          </ul>
+
+        </section>
+          <h2 id="thanks">Thanks for dropping by!</h2>
+      </article>
+    </div>
+    <footer>
+      <h4>This footer is brought to you in part by HTML, CSS, ALMONDS, NUTELLA, DBC &amp; Joan Torres</h4>
+    </footer>
+  </body>
+</html>
